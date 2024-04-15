@@ -1,0 +1,15 @@
+Teile on jagatud kolm tekstifaili. Failinimi ütleb mida see sisaldab. Teil tuleb luua PS skript,
+mis loob juhusliku nime (Eesnimi Perenimi) juhusliku kirjeldusega. Lisaks tuleb genereerida 
+parool (puhast tekst), mis koosneks ainult tähtedest (SUURED/väiksed) ja numbritest (0-9). Pikkus 
+5 kuni 8 märki. Lõpuks on vaja juhusliku eesnime ja perekonnanime 
+põhjal luua kasutajanimi. Kasutajanimi on kujul eesnimi.perenimi. Kui nimi (eesnimi ja/või perenimi) 
+sisaldab tühikut VÕI sidekriipsu, siis see kirjutatakse kokku. Kasutajanimi on läbivalt 
+väikestetähtedega. Kogu tulemus kirjutatakse CSV faili. Kui fail on olemas, siis kirjutatakse 
+failisisu üle! Failinimi on: new_users_accounts.csv Korraga tehakse ainult 5 kasutajat!
+
+CSV faili sisu on järgneval kujul:
+Eesnimi;Perenimi;Kasutajanimi;Parool;Kirjeldus
+
+Näiteks:
+Eesnimi;Perenimi;Kasutajanimi;Parool;Kirjeldus
+Tauno;Korol;tauno.korol;sdf23as;Loob ja arendab tarkvara, tegeleb süsteemi arendusprojektidega.
