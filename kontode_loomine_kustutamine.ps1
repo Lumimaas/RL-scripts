@@ -65,12 +65,10 @@ function Add-NewUserAccounts {
 # Funktsioon kasutajakontode kustutamiseks
 function Remove-UserAccount {
     param (
-        [int]$selection
+        [string]$username
     )
-    $users = Get-LocalUser | Where-Object { $_.Name -like '*.*' }
-    if ($selection -gt 0 -and $selection -le $users.Count) {
-        $user = $users[$selection - 1]
-        $username = $user.Name
+    $user = Get-LocalUser -Name $username -ErrorAction SilentlyContinue
+    if ($user) {
         Remove-LocalUser -Name $username -Confirm:$false
         Write-Host "Kasutaja $username kustutatud." -ForegroundColor Green
         $userProfilePath = Join-Path -Path "C:\Users" -ChildPath $username
@@ -79,7 +77,7 @@ function Remove-UserAccount {
             Write-Host "Kasutaja kodukaust $username kustutatud." -ForegroundColor Green
         }
     } else {
-        Write-Host "Valitud numbriga kasutajat ei leitud." -ForegroundColor Red
+        Write-Host "Kasutajat $username ei leitud." -ForegroundColor Red
     }
 }
  
@@ -97,11 +95,21 @@ if ($action -eq "L") {
     }
 } elseif ($action -eq "K") {
     # Näitame kasutajale võimalikke kustutatavaid kontosid
-    Get-DeletableAccounts
+    $deletableAccounts = Get-LocalUser | Where-Object { $_.Name -like '*.*' }
+    $index = 1
+    $deletableAccounts | ForEach-Object {
+        Write-Host "$index. $($_.Name) - $($_.FullName)"
+        $index++
+    }
     # Küsime kasutajalt, millist kontot soovitakse kustutada
     $selection = Read-Host "Sisestage kasutajakonto number, mida soovite kustutada"
-    Remove-UserAccount -selection $selection
+    if ($selection -match '^\d+$') {
+        $selectedUser = $deletableAccounts[$selection - 1]
+        $username = $selectedUser.Name
+        Remove-UserAccount -username $username
+    } else {
+        Write-Host "Palun sisestage korrektne numbri väärtus." -ForegroundColor Red
+    }
 } else {
     Write-Host "Tundmatu valik! Valige kas L (lisamine) või K (kustutamine)" -ForegroundColor Red
 }
- 
